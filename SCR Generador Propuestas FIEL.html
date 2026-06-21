@@ -133,7 +133,8 @@ Honorarios de ECLU o Tasas por Prestación de Servicios Urbanísticos</textarea>
 <div class="pview hidden" id="prevSection">
   <div class="notice">
     <button class="btn2" id="btnBack">← Volver</button>
-    <span>Pulsa "⬇ Imprimir / Guardar PDF" dentro del documento. Activa "gráficos de fondo" en las opciones de impresión.</span>
+    <button class="btn" id="btnOpenTab">⬇ Abrir para Imprimir / PDF</button>
+    <span>En móvil, usa "Abrir para Imprimir" — abre en una pestaña nueva para que la impresión salga completa, sin cortes.</span>
   </div>
   <div class="pframe">
     <div class="pbar"><span id="pbarTitle">📄 Propuesta · 3 páginas</span><span style="color:#aaa">Vista previa</span></div>
@@ -236,10 +237,17 @@ function showPreview(){
   g("pbarTitle").textContent = "📄 Propuesta " + gv("numPropuesta") + " · 3 páginas";
   setTimeout(() => { g("pdfFrame").srcdoc = buildPagesHTML(); }, 80);
 }
+function openInNewTab(){
+  const html = buildPagesHTML();
+  const blob = new Blob([html], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
+  window.open(url, "_blank");
+}
 g("tabForm").addEventListener("click", showForm);
 g("tabPrev").addEventListener("click", showPreview);
 g("btnBack").addEventListener("click", showForm);
 g("btnPreview").addEventListener("click", showPreview);
+if (g("btnOpenTab")) g("btnOpenTab").addEventListener("click", openInNewTab);
 
 // ───────── Build the 3 pages HTML (matches original PDF/XLSX layout) ─────────
 function buildPagesHTML(){
